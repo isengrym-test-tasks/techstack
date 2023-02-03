@@ -9,8 +9,7 @@ import ua.klieshchunov.model.entity.computer.components.Display;
 @Setter
 public class Laptop extends Computer {
     private Display displaySpecs;
-    //WPH - Watt per Hour
-    private Battery batteryCapacityWPH;
+    private Battery battery;
 
     @Override
     public ComputerType getComputerType() {

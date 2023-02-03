@@ -63,7 +63,7 @@ public class ComputerFactory {
         computer.setQuantityInStock(quantity);
         computer.setBrand(brand);
         computer.setPriceUSD(price);
-        computer.setBatteryCapacityWPH(
+        computer.setBattery(
                 (Battery) ComponentFactory.getComponent(12,"70 Watt per Hour", Battery.class)
         );
         computer.setOs(
