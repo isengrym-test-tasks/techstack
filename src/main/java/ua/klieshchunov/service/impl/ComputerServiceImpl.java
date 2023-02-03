@@ -35,11 +35,6 @@ public class ComputerServiceImpl implements ComputerService {
     }
 
     @Override
-    public void throwIfNotExists(int id) throws ComputerNotFoundException {
-        findById(id);
-    }
-
-    @Override
     public List<Computer> findAllAvailable() {
         return computerRepo.findAll().stream()
                 .filter(this::isInStock)

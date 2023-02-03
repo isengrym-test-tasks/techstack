@@ -1,6 +1,6 @@
 package ua.klieshchunov.exception;
 
-public class EntityAlreadyExistsException extends Exception {
+public class EntityAlreadyExistsException extends EntityException {
     public EntityAlreadyExistsException(String message) {
         super(message);
     }

@@ -1,5 +1,6 @@
 package ua.klieshchunov;
 
+import ua.klieshchunov.exception.EntityIllegalArgumentException;
 import ua.klieshchunov.model.entity.Client;
 import ua.klieshchunov.model.entity.Order;
 import ua.klieshchunov.model.ShopResponse;
@@ -32,6 +33,15 @@ public class Shop {
             Client registeredClient = clientService.register(client);
             return createResponse(ShopResponse.ResponseStatus.SUCCESS, registeredClient.toString());
         } catch (Exception e) {
+            return createResponse(ShopResponse.ResponseStatus.FAILURE, e.getMessage());
+        }
+    }
+
+    public ShopResponse addFunds(Client client, int amount) {
+        try {
+            Client updatedFunds = clientService.updateFunds(client, amount, ClientServiceImpl.Operation.ADDITION);
+            return createResponse(ShopResponse.ResponseStatus.SUCCESS, updatedFunds.toString());
+        } catch (EntityIllegalArgumentException e) {
             return createResponse(ShopResponse.ResponseStatus.FAILURE, e.getMessage());
         }
     }

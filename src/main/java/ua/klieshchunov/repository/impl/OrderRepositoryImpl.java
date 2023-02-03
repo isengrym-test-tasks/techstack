@@ -40,6 +40,13 @@ public class OrderRepositoryImpl implements EntityCrudRepository<Order> {
     }
 
     @Override
+    public void update(Order entity) {
+        int index = StorageUtils.getStorageIndex(storage, entity);
+        storage.remove(index);
+        storage.add(entity);
+    }
+
+    @Override
     public Order save(Order entity) {
         int id = StorageUtils.getAutoId(storage);
         entity.setId(id);

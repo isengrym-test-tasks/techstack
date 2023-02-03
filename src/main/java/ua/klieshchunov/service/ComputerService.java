@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface ComputerService {
     Computer findById(int id) throws ComputerNotFoundException;
-    void throwIfNotExists(int computerId) throws ComputerNotFoundException;
     List<Computer> findAllAvailable();
     List<Computer> findAllAvailable(ComputerType filter);
 

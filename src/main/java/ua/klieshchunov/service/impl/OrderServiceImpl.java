@@ -3,7 +3,10 @@ package ua.klieshchunov.service.impl;
 import ua.klieshchunov.exception.ClientNotFoundException;
 import ua.klieshchunov.exception.ComputerNotFoundException;
 import ua.klieshchunov.exception.EntityAlreadyExistsException;
+import ua.klieshchunov.exception.EntityIllegalArgumentException;
+import ua.klieshchunov.model.entity.Client;
 import ua.klieshchunov.model.entity.Order;
+import ua.klieshchunov.model.entity.computer.Computer;
 import ua.klieshchunov.repository.EntityCrudRepository;
 import ua.klieshchunov.repository.impl.OrderRepositoryImpl;
 import ua.klieshchunov.service.ClientService;
@@ -48,12 +51,19 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order createOrder(int clientId, int computerId)
-            throws EntityAlreadyExistsException, ClientNotFoundException, ComputerNotFoundException {
+            throws EntityAlreadyExistsException, EntityIllegalArgumentException,
+            ClientNotFoundException, ComputerNotFoundException {
 
-        clientService.throwIfNotExists(clientId);
-        computerService.throwIfNotExists(computerId);
+        Client client = clientService.findById(clientId);
+        Computer computer = computerService.findById(computerId);
 
         Order order = new Order(clientId, computerId);
+        takePayment(client, computer.getPriceUSD());
         return orderRepository.save(order);
+    }
+
+    @Override
+    public void takePayment(Client client, int amount) throws EntityIllegalArgumentException {
+        clientService.updateFunds(client, amount, ClientServiceImpl.Operation.SUBTRACTION);
     }
 }

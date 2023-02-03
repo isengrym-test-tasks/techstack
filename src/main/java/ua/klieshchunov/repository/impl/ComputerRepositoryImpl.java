@@ -49,6 +49,13 @@ public class ComputerRepositoryImpl implements EntityCrudRepository<Computer> {
     }
 
     @Override
+    public void update(Computer entity) {
+        int index = StorageUtils.getStorageIndex(storage, entity);
+        storage.remove(index);
+        storage.add(entity);
+    }
+
+    @Override
     public Computer save(Computer entity) throws EntityAlreadyExistsException {
         if (findById(entity.getId()).isPresent())
             throw new ComputerAlreadyExistsException(String.format("Computer with id='%s' already exists", entity.getId()));

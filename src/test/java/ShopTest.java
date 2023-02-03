@@ -20,8 +20,8 @@ public class ShopTest {
     public List<Computer> laptopStorage;
     public List<Order> orderStorage;
     public List<Client> clientStorage;
-    public final Client testClientIdTwo = new Client(2, "John", "Marston", "johnmarston@gmail.com");
-    public final Client testClientIdThree = new Client(3, "John", "Marston", "johnmarston@gmail.com");
+    public final Client testClientIdTwo = new Client(2, "John", "Marston", "johnmarston@gmail.com", 2000);
+    public final Client testClientIdThree = new Client(3, "John", "Marston", "johnmarston@gmail.com", 2000);
 
     @BeforeEach
     public void fillStorages() {
@@ -46,7 +46,7 @@ public class ShopTest {
         ));
 
         clientStorage = new ArrayList<>(Arrays.asList(
-                new Client(1, "Alexey", "Klieshchunov", "alexeyklieshchunov@gmail.com")
+                new Client(1, "Alexey", "Klieshchunov", "alexeyklieshchunov@gmail.com", 100)
         ));
     }
 
@@ -85,7 +85,9 @@ public class ShopTest {
 
         Assertions.assertEquals(
                 response,
-                new ShopResponse(ShopResponse.ResponseStatus.FAILURE, String.format("Couldn't find client with id='%s'", clientId))
+                new ShopResponse(ShopResponse.ResponseStatus.FAILURE,
+                        String.format("Couldn't find client with id='%s'", clientId)
+                )
         );
     }
 
@@ -99,7 +101,24 @@ public class ShopTest {
 
         Assertions.assertEquals(
                 response,
-                new ShopResponse(ShopResponse.ResponseStatus.FAILURE, String.format("Couldn't find computer with id='%s'", productId))
+                new ShopResponse(ShopResponse.ResponseStatus.FAILURE,
+                        String.format("Couldn't find computer with id='%s'", productId)
+                )
+        );
+    }
+
+    @Test
+    public void buyComputerForUserWithNotEnoughMoney() {
+        int clientId = 1;
+        int productId = 5;
+
+        ShopResponse response = shop.buyComputer(clientId, productId);
+
+        Assertions.assertEquals(
+                response,
+                new ShopResponse(ShopResponse.ResponseStatus.FAILURE,
+                        String.format("Client with id='%s' doesn't have enough money for subtraction operation", clientId)
+                )
         );
     }
 }

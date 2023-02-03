@@ -17,7 +17,7 @@ public class ClientRepositoryImpl implements EntityCrudRepository<Client> {
 
     private ClientRepositoryImpl() {
         this.storage = new ArrayList<>(Arrays.asList(
-                new Client(1, "Alexey", "Klieshchunov", "alexeyklieshchunov@gmail.com")
+                new Client(1, "Alexey", "Klieshchunov", "alexeyklieshchunov@gmail.com", 100)
         ));
     }
 
@@ -38,6 +38,13 @@ public class ClientRepositoryImpl implements EntityCrudRepository<Client> {
     @Override
     public List<Client> findAll() {
         return storage;
+    }
+
+    @Override
+    public void update(Client entity) {
+        int index = StorageUtils.getStorageIndex(storage, entity);
+        storage.remove(index);
+        storage.add(entity);
     }
 
     @Override
